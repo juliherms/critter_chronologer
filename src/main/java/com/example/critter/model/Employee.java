@@ -19,7 +19,7 @@ import java.util.Set;
 @Getter
 @Setter
 @ToString
-public class Employee {
+public class Employee extends User {
 
     @ElementCollection(targetClass = EmployeeSkill.class)
     @Enumerated(EnumType.STRING)

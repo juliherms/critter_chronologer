@@ -20,7 +20,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Customer {
+public class Customer extends  User {
 
     @Column(length = 100, nullable = false)
     private String phoneNumber;

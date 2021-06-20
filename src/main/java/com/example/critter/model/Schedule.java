@@ -21,7 +21,7 @@ import java.util.Set;
 @Setter
 public class Schedule {
 
-    @Id[]
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long scheduleId;
 

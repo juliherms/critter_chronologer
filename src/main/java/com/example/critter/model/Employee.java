@@ -18,7 +18,7 @@ import java.util.Set;
 @ToString
 public class Employee extends User {
 
-    @ElementCollection(targetClass = EmployeeSkill.class)
+    @ElementCollection(targetClass = EmployeeSkill.class, fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
     private Set<EmployeeSkill> skills;
 

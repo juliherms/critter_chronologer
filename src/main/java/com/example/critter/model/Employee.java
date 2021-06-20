@@ -3,10 +3,7 @@ package com.example.critter.model;
 import com.example.critter.model.enums.EmployeeSkill;
 import lombok.*;
 
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+import javax.persistence.*;
 import java.time.DayOfWeek;
 import java.util.Set;
 
@@ -25,7 +22,7 @@ public class Employee extends User {
     @Enumerated(EnumType.STRING)
     private Set<EmployeeSkill> skills;
 
-    @ElementCollection(targetClass = DayOfWeek.class)
+    @ElementCollection(targetClass = DayOfWeek.class, fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
     private Set<DayOfWeek> daysAvailable;
 }

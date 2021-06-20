@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
@@ -75,6 +76,88 @@ class CritterApplicationTests {
 		Assertions.assertTrue(retrievedCustomer.getPetIds() != null && retrievedCustomer.getPetIds().size() > 0);
 		Assertions.assertEquals(retrievedCustomer.getPetIds().get(0), retrievedPet.getPetId());
 	}
+
+	@Test
+	public void testCreateEmployeeSuccess(){
+
+		//create employee
+		EmployeeDTO employeeDTO = createEmployeeDTO();
+		EmployeeDTO newEmployee = userController.saveEmployee(employeeDTO);
+
+		//find employee
+		EmployeeDTO retrievedEmployee = userController.getEmployee(newEmployee.getId());
+
+		//check created employee
+		Assertions.assertEquals(employeeDTO.getSkills(), newEmployee.getSkills());
+		Assertions.assertEquals(newEmployee.getId(), retrievedEmployee.getId());
+		Assertions.assertTrue(retrievedEmployee.getId() > 0);
+	}
+
+	@Test
+	public void testFindPetsByOwnerSuccess() {
+
+		//create customer
+		CustomerDTO customerDTO = createCustomerDTO();
+		CustomerDTO newCustomer = userController.saveCustomer(customerDTO);
+
+		//create pet and associate customer
+		PetDTO petDTO = createPetDTO();
+		petDTO.setOwnerId(newCustomer.getId());
+		PetDTO newPet = petController.save(petDTO);
+
+		//create a new pet
+		petDTO.setType(PetType.DOG);
+		petDTO.setName("fred");
+		petController.save(petDTO);
+
+		//find pets by customer
+		List<PetDTO> pets = petController.getPetsByOwner(newCustomer.getId());
+
+		//check and validate
+		Assertions.assertEquals(pets.size(), 2);
+		Assertions.assertEquals(pets.get(0).getOwnerId(), newCustomer.getId());
+		Assertions.assertEquals(pets.get(0).getPetId(), newPet.getPetId());
+	}
+
+	@Test
+	public void testFindOwnerByPetSuccess() {
+
+		//create a customer
+		CustomerDTO customerDTO = createCustomerDTO();
+		CustomerDTO newCustomer = userController.saveCustomer(customerDTO);
+
+		//create a pet and associate customer
+		PetDTO petDTO = createPetDTO();
+		petDTO.setOwnerId(newCustomer.getId());
+		PetDTO newPet = petController.save(petDTO);
+
+		//find owner by pet
+		CustomerDTO owner = userController.getOwnerByPet(newPet.getPetId());
+
+		//validate
+		Assertions.assertEquals(owner.getId(), newCustomer.getId());
+		Assertions.assertEquals(owner.getPetIds().get(0), newPet.getPetId());
+	}
+
+	@Test
+	public void testChangeEmployeeAvailabilitySuccess() {
+
+		//create employee
+		EmployeeDTO employeeDTO = createEmployeeDTO();
+		EmployeeDTO emp1 = userController.saveEmployee(employeeDTO);
+
+		//validate your availability
+		Assertions.assertNull(emp1.getDaysAvailable());
+
+		//Set availability
+		Set<DayOfWeek> availability = Sets.newHashSet(DayOfWeek.MONDAY, DayOfWeek.TUESDAY, DayOfWeek.WEDNESDAY);
+		userController.setAvailability(availability, emp1.getId());
+
+		//validate availability
+		EmployeeDTO emp2 = userController.getEmployee(emp1.getId());
+		Assertions.assertEquals(availability, emp2.getDaysAvailable());
+	}
+
 
 
 	private static EmployeeDTO createEmployeeDTO() {

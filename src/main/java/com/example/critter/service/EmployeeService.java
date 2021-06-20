@@ -3,6 +3,7 @@ package com.example.critter.service;
 import com.example.critter.model.Employee;
 import com.example.critter.model.enums.EmployeeSkill;
 import com.example.critter.repository.EmployeeRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +19,7 @@ import java.util.stream.Collectors;
 @Service
 public class EmployeeService {
 
+    @Autowired
     private EmployeeRepository repo;
 
     /**

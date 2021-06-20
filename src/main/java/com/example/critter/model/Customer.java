@@ -5,10 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +25,7 @@ public class Customer extends  User {
     @Column(length = 500)
     private String notes;
 
-    @OneToMany(targetEntity = Pet.class, mappedBy = "customer", cascade = CascadeType.ALL)
+    @OneToMany(targetEntity = Pet.class, mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Pet> pets;
 
     public void addPet(Pet pet) {

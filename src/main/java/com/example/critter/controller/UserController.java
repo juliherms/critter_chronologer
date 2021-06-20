@@ -3,6 +3,7 @@ package com.example.critter.controller;
 import com.example.critter.dto.CustomerDTO;
 import com.example.critter.dto.EmployeeDTO;
 import com.example.critter.dto.EmployeeRequestDTO;
+import com.example.critter.dto.PetDTO;
 import com.example.critter.model.Customer;
 import com.example.critter.model.Employee;
 import com.example.critter.model.Pet;
@@ -54,6 +55,16 @@ public class UserController {
 
         Customer savedCustomer = customerService.save(customer);
         return convertCustomerToDTO(savedCustomer);
+    }
+
+    /**
+     * Get customer from customer id
+     * @param customerId
+     * @return
+     */
+    @GetMapping("/{customerId}")
+    public CustomerDTO getCustomerId(@PathVariable Long customerId) {
+        return convertCustomerToDTO(customerService.getById(customerId));
     }
 
     /**

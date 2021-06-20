@@ -5,6 +5,7 @@ import com.example.critter.model.Pet;
 import com.example.critter.repository.PetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -34,6 +35,7 @@ public class PetService {
      * @param pet
      * @return
      */
+    @Transactional
     public Pet save(Long ownerId, Pet pet) {
         Customer customer = customerService.getById(ownerId);
         pet.setCustomer(customer);

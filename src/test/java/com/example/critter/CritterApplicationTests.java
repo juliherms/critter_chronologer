@@ -35,15 +35,47 @@ class CritterApplicationTests {
 	@Test
 	public void testCreateCustomerSuccess(){
 
+		//create customer
 		CustomerDTO customerDTO = createCustomerDTO();
 		CustomerDTO newCustomer = userController.saveCustomer(customerDTO);
 
+		//find customer
 		CustomerDTO retrievedCustomer = userController.getCustomerId(newCustomer.getId());
 
+		//validate create customer
 		Assertions.assertEquals(newCustomer.getName(), customerDTO.getName());
 		Assertions.assertEquals(newCustomer.getId(), retrievedCustomer.getId());
 		Assertions.assertTrue(retrievedCustomer.getId() > 0);
 	}
+
+	@Test
+	public void testAddPetsToCustomerSuccess() {
+
+		//create a customer
+		CustomerDTO customerDTO = createCustomerDTO();
+		CustomerDTO newCustomer = userController.saveCustomer(customerDTO);
+
+		//create pet and associate customer
+		PetDTO petDTO = createPetDTO();
+		petDTO.setOwnerId(newCustomer.getId());
+		PetDTO newPet = petController.save(petDTO);
+
+		//find pet and check your owner id
+		PetDTO retrievedPet = petController.getPet(newPet.getPetId());
+		Assertions.assertEquals(retrievedPet.getPetId(), newPet.getPetId());
+		Assertions.assertEquals(retrievedPet.getOwnerId(), newCustomer.getId());
+
+		//find pets by owner idr
+		List<PetDTO> pets = petController.getPetsByOwner(newCustomer.getId());
+		Assertions.assertEquals(newPet.getPetId(), pets.get(0).getPetId());
+		Assertions.assertEquals(newPet.getName(), pets.get(0).getName());
+
+		//find customer and check yours pets
+		CustomerDTO retrievedCustomer = userController.getAllCustomers().get(0);
+		Assertions.assertTrue(retrievedCustomer.getPetIds() != null && retrievedCustomer.getPetIds().size() > 0);
+		Assertions.assertEquals(retrievedCustomer.getPetIds().get(0), retrievedPet.getPetId());
+	}
+
 
 	private static EmployeeDTO createEmployeeDTO() {
 

@@ -3,7 +3,6 @@ package com.example.critter.controller;
 import com.example.critter.dto.CustomerDTO;
 import com.example.critter.dto.EmployeeDTO;
 import com.example.critter.dto.EmployeeRequestDTO;
-import com.example.critter.dto.PetDTO;
 import com.example.critter.model.Customer;
 import com.example.critter.model.Employee;
 import com.example.critter.model.Pet;
@@ -25,7 +24,7 @@ import java.util.stream.Collectors;
  */
 @RestController
 @AllArgsConstructor
-@RequestMapping("/users")
+@RequestMapping("/user")
 public class UserController {
 
     @Autowired

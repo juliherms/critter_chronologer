@@ -6,9 +6,14 @@ import com.example.critter.controller.UserController;
 import com.example.critter.dto.*;
 import com.example.critter.model.enums.EmployeeSkill;
 import com.example.critter.model.enums.PetType;
+import com.example.critter.repository.CustomerRepository;
+import com.example.critter.repository.EmployeeRepository;
+import com.example.critter.repository.PetRepository;
+import com.example.critter.repository.ScheduleRepository;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -32,8 +37,29 @@ class CritterApplicationTests {
 	@Autowired
 	private ScheduleController scheduleController;
 
+	@Autowired
+	private EmployeeRepository employeeRepository;
+
+	@Autowired
+	private ScheduleRepository scheduleRepository;
+
+	@Autowired
+	private PetRepository petRepository;
+
+	@Autowired
+	private CustomerRepository customerRepository;
+
 	@Test
 	void contextLoads() {
+
+	}
+
+	@BeforeEach
+	public void beforeEach() {
+		scheduleRepository.deleteAll();
+		customerRepository.deleteAll();
+		employeeRepository.deleteAll();
+		petRepository.deleteAll();
 	}
 
 	@Test
